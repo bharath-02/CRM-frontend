@@ -38,15 +38,11 @@ const Navbar = () => {
                             Contact Keeper
                         </Link>
                     </Typography>
-                    <Button color="inherit">
-                        <Link href="/view" color="inherit" className="linkStyling">
-                            View
-                        </Link>
+                    <Button href="/view" color="inherit">
+                       View
                     </Button>
-                    <Button color="inherit">
-                        <Link href="/create" color="inherit" className="linkStyling">
-                            Create
-                        </Link>
+                    <Button href="/create" color="inherit">
+                        Create
                     </Button>
                 </Toolbar>
             </AppBar>
