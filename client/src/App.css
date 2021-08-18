@@ -1,3 +1,10 @@
 .linkStyling {
   text-decoration: none !important;
 }
+
+.flex-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
