@@ -3,12 +3,12 @@ import {
     Typography,
     Button
 } from '@material-ui/core';
-import PermContactCalendarSharpIcon from '@material-ui/icons/PermContactCalendarSharp';
+import {PermContactCalendarSharp} from '@material-ui/icons';
 
 const Home = () => {
     return (
         <div className="flex-items">
-            <PermContactCalendarSharpIcon color="primary" style={{ fontSize: 250, marginTop: 50 }} />
+            <PermContactCalendarSharp color="primary" style={{ fontSize: 250, marginTop: 50 }} />
 
             <Typography variant="h3" color="primary" style={{ marginTop: 30 }}>
                 Manage your contacts here
