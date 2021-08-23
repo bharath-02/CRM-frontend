@@ -39,7 +39,15 @@ h6 {
   justify-content: space-between;
   margin-top: 30px;
   padding: 0 20px;
+  border-radius: 6px !important;
+  border: 1px solid #f7f8f9;
+  box-shadow: none !important;
 }
 .iconStyling {
   padding-right: 15px !important;
+}
+.tableStyling {
+  margin-top: 50px;
+  border: none !important;
+  box-shadow: none !important;
 }
