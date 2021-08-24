@@ -1,14 +1,4 @@
-.linkStyling {
-  text-decoration: none !important;
-}
-
-.flex-items {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
+/* Defaults */
 h1,
 h2,
 h3,
@@ -19,6 +9,20 @@ h6 {
   padding: 0 !important;
 }
 
+/* Navbar styling */
+.linkStyling {
+  text-decoration: none !important;
+}
+
+/* Home page styling */
+.flex-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* View page styling */
 .dashboardPage {
   background-color: #f7f8f9;
   height: 100vh;
@@ -50,4 +54,36 @@ h6 {
   margin-top: 50px;
   border: none !important;
   box-shadow: none !important;
+}
+.rowHover:hover {
+  background-color: #f7f8f9;
+}
+.actionButton {
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+}
+.edit {
+  background-color: #2eb794 !important;
+}
+.delete {
+  background-color: #f23729 !important;
+}
+
+/* Create page styling */
+.heading {
+  margin: 0 0 30px 0 !important;
+}
+.positionCenter {
+  text-align: center;
+}
+.formPosition {
+  margin: 50px auto !important;
+}
+.textFieldPosition {
+  width: 500px;
+  margin: 15px 0 !important;
+}
+.createButton {
+  margin-top: 20px !important;
+  padding: 8px 40px !important;
 }
