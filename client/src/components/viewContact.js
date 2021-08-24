@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { 
+import {
+    Button,
     Container,
     Card,
     CardActions,
     CardContent,
-    Button,
     Typography,
     Paper,
     TableContainer,
@@ -15,16 +15,20 @@ import {
     TableRow,
     TableCell
 } from '@material-ui/core';
-import {Add} from '@material-ui/icons';
+import {
+    Add,
+    Delete,
+    Edit
+} from '@material-ui/icons';
 
 const ViewContacts = () => {
     const [data, setData] = useState();
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/contact').then((response) => {
-            setData(response.data.data)
-        })
+        axios.get('http://localhost:4000/contact')
+            .then((response) => {
+                setData(response.data.data)
+            })
     }, [])
 
     return (
@@ -49,25 +53,46 @@ const ViewContacts = () => {
                 </Card>
 
                 <TableContainer component={Paper} className="tableStyling">
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell><strong>Created Date</strong></TableCell>
                                 <TableCell><strong>First Name</strong></TableCell>
                                 <TableCell><strong>Last Name</strong></TableCell>
                                 <TableCell><strong>Email</strong></TableCell>
+                                <TableCell><strong>Company</strong></TableCell>
                                 <TableCell><strong>Phone Number</strong></TableCell>
+                                <TableCell><strong></strong></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {data && data.map((row) => {
                                 return (
-                                    <TableRow key={row._id}>
+                                    <TableRow key={row._id} className="rowHover">
                                         <TableCell>{row.createdDate}</TableCell>
                                         <TableCell>{row.firstName}</TableCell>
                                         <TableCell>{row.lastName}</TableCell>
                                         <TableCell>{row.email}</TableCell>
+                                        <TableCell>{row.company}</TableCell>
                                         <TableCell>{row.phone}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                variant="contained"
+                                                className="actionButton edit"
+                                                color="primary"
+                                                startIcon={<Edit />}
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                className="actionButton delete"
+                                                color="secondary"
+                                                startIcon={<Delete />}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })}
