@@ -29,7 +29,18 @@ const ViewContacts = () => {
             .then((response) => {
                 setData(response.data.data)
             })
-    }, [])
+    })
+
+    const handleEdit = (e) => {
+        console.log(e)
+    }
+
+    const handleDelete = (e, id) => {
+        axios.delete(`http://localhost:4000/contact/${id}`)
+            .then((response) => {
+                console.log(response)
+            })
+    }
 
     return (
         <div className="dashboardPage">
@@ -80,6 +91,7 @@ const ViewContacts = () => {
                                                 variant="contained"
                                                 className="actionButton edit"
                                                 color="primary"
+                                                onClick={handleEdit}
                                                 startIcon={<Edit />}
                                             >
                                                 Edit
@@ -88,6 +100,7 @@ const ViewContacts = () => {
                                                 variant="contained"
                                                 className="actionButton delete"
                                                 color="secondary"
+                                                onClick={(e) => {handleDelete(e, row._id)}}
                                                 startIcon={<Delete />}
                                             >
                                                 Delete
