@@ -85,7 +85,7 @@ const ViewContacts = () => {
                                         <TableCell>{row.lastName}</TableCell>
                                         <TableCell>{row.email}</TableCell>
                                         <TableCell>{row.company}</TableCell>
-                                        <TableCell>{row.phone}</TableCell>
+                                        <TableCell>{row.phoneNumber}</TableCell>
                                         <TableCell>
                                             <Button
                                                 variant="contained"
