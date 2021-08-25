@@ -3,15 +3,29 @@ import axios from 'axios';
 import {
     Button,
     TextField,
-    Typography
+    Typography,
+    Snackbar
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const CreateContact = () => {
+    const [open, setOpen] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [company, setCompany] = useState('');
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+    };
 
     const createContact = async (object) => {
         await axios.post('http://localhost:4000/contact', object)
@@ -23,7 +37,6 @@ const CreateContact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         await createContact({firstName, lastName, email, phoneNumber, company})
-        console.log(firstName, lastName, email, phoneNumber, company)
     }
 
     return (
@@ -78,11 +91,17 @@ const CreateContact = () => {
                 /><br />
 
                 <div>
-                    <Button type="submit" variant="contained" color="primary" className="createButton">
+                    <Button onClick={() => {setOpen(true)}} type="submit" variant="contained" color="primary" className="createButton">
                         Create
                     </Button>
                 </div>
             </form>
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    Contact created successfully!
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
