@@ -87,3 +87,8 @@ h6 {
   margin-top: 20px !important;
   padding: 8px 40px !important;
 }
+/* update modal styling */
+.updateButton {
+  display: block !important;
+  margin: 20px auto !important;
+}

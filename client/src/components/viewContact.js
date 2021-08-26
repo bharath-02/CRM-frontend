@@ -6,6 +6,11 @@ import {
     Card,
     CardActions,
     CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Typography,
     Paper,
     TableContainer,
@@ -13,33 +18,58 @@ import {
     TableHead,
     TableBody,
     TableRow,
-    TableCell
+    TableCell,
+    Snackbar
 } from '@material-ui/core';
 import {
     Add,
     Delete,
     Edit
 } from '@material-ui/icons';
+import MuiAlert from '@material-ui/lab/Alert';
+
+import EditContact from './editContact';
+
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const ViewContacts = () => {
+    const [id, setId] = useState();
     const [data, setData] = useState();
+    const [rowData, setRowData] = useState();
+    const [open, setOpen] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     useEffect(() => {
         axios.get('http://localhost:4000/contact')
             .then((response) => {
                 setData(response.data.data)
             })
-    })
+    }, [openDeleteModal])
 
-    const handleEdit = (e) => {
-        console.log(e)
+    const deleteContact = () => {
+        axios.delete(`http://localhost:4000/contact/${id}`)
+            .then(() => {
+                setOpenDeleteModal(false)
+                setOpen(true)
+            })
     }
 
-    const handleDelete = (e, id) => {
-        axios.delete(`http://localhost:4000/contact/${id}`)
-            .then((response) => {
-                console.log(response)
-            })
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+    };
+
+    const handleEdit = () => {
+        setOpenEditModal(false)
+    }
+
+    const handleDelete = () => {
+        setOpenDeleteModal(false)
     }
 
     return (
@@ -91,7 +121,11 @@ const ViewContacts = () => {
                                                 variant="contained"
                                                 className="actionButton edit"
                                                 color="primary"
-                                                onClick={handleEdit}
+                                                onClick={() => {
+                                                    setId(row._id)   
+                                                    setRowData(row)
+                                                    setOpenEditModal(true)
+                                                }}
                                                 startIcon={<Edit />}
                                             >
                                                 Edit
@@ -100,7 +134,10 @@ const ViewContacts = () => {
                                                 variant="contained"
                                                 className="actionButton delete"
                                                 color="secondary"
-                                                onClick={(e) => {handleDelete(e, row._id)}}
+                                                onClick={() => {
+                                                    setOpenDeleteModal(true)
+                                                    setId(row._id)
+                                                }}
                                                 startIcon={<Delete />}
                                             >
                                                 Delete
@@ -112,6 +149,48 @@ const ViewContacts = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+                {/*************     Snackbar for deleting     ***********/}
+                <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                        Contact Deleted successfully!
+                    </Alert>
+                </Snackbar>
+
+                {/*************     Edit Contact Modal     ***********/}
+                <Dialog
+                    open={openEditModal}
+                    onClose={handleEdit}
+                >
+                    <DialogTitle>{"Edit Contact?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Update your Contact.
+                        </DialogContentText>
+                        <EditContact editID={id} rowValue={rowData} />
+                    </DialogContent>
+                </Dialog>
+
+                {/*************     Delete Contact Modal     ***********/}
+                <Dialog
+                    open={openDeleteModal}
+                    onClose={handleDelete}
+                >
+                    <DialogTitle>{"Delete Contact?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure you want to delete this contact. This cannot be undone.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button  onClick={handleDelete} autoFocus color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={deleteContact} autoFocus color="primary">
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </div>
     )

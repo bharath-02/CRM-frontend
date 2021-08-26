@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
     Button,
     TextField,
-    Typography,
     Snackbar
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -12,7 +11,7 @@ const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const CreateContact = () => {
+const EditContact = ({editID, rowValue}) => {
     const [open, setOpen] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -27,8 +26,8 @@ const CreateContact = () => {
         setOpen(false);
     };
 
-    const createContact = async (object) => {
-        await axios.post('http://localhost:4000/contact', object)
+    const editContact = async (object) => {
+        await axios.put(`http://localhost:4000/contact/${editID}`, object)
             .then((response) => {
                 setOpen(true)
                 setFirstName('')
@@ -41,75 +40,70 @@ const CreateContact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await createContact({firstName, lastName, email, phoneNumber, company})
+        await editContact({firstName, lastName, email, phoneNumber, company})
     }
 
-    return (
-        <div className="positionCenter">
-            <form onSubmit={handleSubmit} className="formPosition" autoComplete="off">
-                <Typography variant="h3" color="primary" className="heading">Create your Contact</Typography>
+    return(
+        <div>
+            <form onSubmit={handleSubmit} autoComplete="off">
                 <TextField
                     id="outlined-basic" 
-                    value={firstName} 
+                    value={rowValue.firstName} 
                     onChange={e => {setFirstName(e.target.value)}} 
                     label="First Name" 
                     variant="outlined" 
                     className="textFieldPosition" 
-                    required 
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={lastName} 
+                    value={rowValue.lastName} 
                     onChange={e => {setLastName(e.target.value)}} 
                     label="Last Name" 
                     variant="outlined" 
                     className="textFieldPosition" 
-                    required 
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={email} 
+                    value={rowValue.email} 
                     onChange={e => {setEmail(e.target.value)}} 
                     label="Email" 
                     variant="outlined" 
                     type="email"
                     className="textFieldPosition" 
-                    required 
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={phoneNumber} 
+                    value={rowValue.phoneNumber} 
                     onChange={e => {setPhoneNumber(e.target.value)}} 
                     label="Phone Number" 
                     variant="outlined" 
                     className="textFieldPosition" 
-                    required 
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={company} 
+                    value={rowValue.company} 
                     onChange={e => {setCompany(e.target.value)}} 
                     label="Company" 
                     variant="outlined" 
                     className="textFieldPosition" 
-                    required 
                 /><br />
 
                 <div>
-                    <Button type="submit" variant="contained" color="primary" className="createButton">
-                        Create
+                    <Button type="submit" variant="contained" color="primary" className="updateButton">
+                        Update
                     </Button>
                 </div>
             </form>
 
-            {/*************     Snackbar for creating     ***********/}
+
+            {/*************     Snackbar for editing     ***********/}
             <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success">
-                    Contact Created successfully!
+                <Alert onClose={handleClose} severity="info">
+                    Contact Updated successfully!
                 </Alert>
             </Snackbar>
         </div>
     )
 }
 
-export default CreateContact;
+export default EditContact;
