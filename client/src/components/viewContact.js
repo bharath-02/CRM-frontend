@@ -108,9 +108,14 @@ const ViewContacts = () => {
                         </TableHead>
                         <TableBody>
                             {data && data.map((row) => {
+                                let isoDate = new Date(row.createdDate);
+                                let year = isoDate.getFullYear();
+                                let month = isoDate.getMonth()+1;
+                                let date = isoDate.getDate();
+
                                 return (
                                     <TableRow key={row._id} className="rowHover">
-                                        <TableCell>{row.createdDate}</TableCell>
+                                        <TableCell>{date+' - ' + month + ' - '+year}</TableCell>
                                         <TableCell>{row.firstName}</TableCell>
                                         <TableCell>{row.lastName}</TableCell>
                                         <TableCell>{row.email}</TableCell>
