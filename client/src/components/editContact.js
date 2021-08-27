@@ -11,13 +11,13 @@ const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const EditContact = ({editID, rowValue}) => {
+const EditContact = ({editID, rowValue, closeModal}) => {
     const [open, setOpen] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [company, setCompany] = useState('');
+    const [firstName, setFirstName] = useState(rowValue.firstName);
+    const [lastName, setLastName] = useState(rowValue.lastName);
+    const [email, setEmail] = useState(rowValue.email);
+    const [phoneNumber, setPhoneNumber] = useState(rowValue.phoneNumber);
+    const [company, setCompany] = useState(rowValue.company);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -29,12 +29,12 @@ const EditContact = ({editID, rowValue}) => {
     const editContact = async (object) => {
         await axios.put(`http://localhost:4000/contact/${editID}`, object)
             .then((response) => {
-                setOpen(true)
-                setFirstName('')
-                setLastName('')
-                setEmail('')
-                setPhoneNumber('')
-                setCompany('')
+                closeModal(false)
+            })
+            .then(() => {
+                setTimeout(() => {
+                    setOpen(true)
+                }, 1000)
             })
     }
 
@@ -48,7 +48,7 @@ const EditContact = ({editID, rowValue}) => {
             <form onSubmit={handleSubmit} autoComplete="off">
                 <TextField
                     id="outlined-basic" 
-                    value={rowValue.firstName} 
+                    value={firstName} 
                     onChange={e => {setFirstName(e.target.value)}} 
                     label="First Name" 
                     variant="outlined" 
@@ -56,7 +56,7 @@ const EditContact = ({editID, rowValue}) => {
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={rowValue.lastName} 
+                    value={lastName} 
                     onChange={e => {setLastName(e.target.value)}} 
                     label="Last Name" 
                     variant="outlined" 
@@ -64,7 +64,7 @@ const EditContact = ({editID, rowValue}) => {
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={rowValue.email} 
+                    value={email} 
                     onChange={e => {setEmail(e.target.value)}} 
                     label="Email" 
                     variant="outlined" 
@@ -73,7 +73,7 @@ const EditContact = ({editID, rowValue}) => {
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={rowValue.phoneNumber} 
+                    value={phoneNumber} 
                     onChange={e => {setPhoneNumber(e.target.value)}} 
                     label="Phone Number" 
                     variant="outlined" 
@@ -81,7 +81,7 @@ const EditContact = ({editID, rowValue}) => {
                 /><br />
                 <TextField 
                     id="outlined-basic" 
-                    value={rowValue.company} 
+                    value={company} 
                     onChange={e => {setCompany(e.target.value)}} 
                     label="Company" 
                     variant="outlined" 

@@ -47,7 +47,7 @@ const ViewContacts = () => {
             .then((response) => {
                 setData(response.data.data)
             })
-    }, [openDeleteModal])
+    }, [openEditModal, openDeleteModal])
 
     const deleteContact = () => {
         axios.delete(`http://localhost:4000/contact/${id}`)
@@ -156,7 +156,7 @@ const ViewContacts = () => {
                         Contact Deleted successfully!
                     </Alert>
                 </Snackbar>
-
+                
                 {/*************     Edit Contact Modal     ***********/}
                 <Dialog
                     open={openEditModal}
@@ -167,7 +167,7 @@ const ViewContacts = () => {
                         <DialogContentText>
                             Update your Contact.
                         </DialogContentText>
-                        <EditContact editID={id} rowValue={rowData} />
+                        <EditContact editID={id} rowValue={rowData} closeModal={setOpenEditModal} />
                     </DialogContent>
                 </Dialog>
 
